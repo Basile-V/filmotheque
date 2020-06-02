@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\modele\Categorie;
 use Illuminate\Http\Request;
 use App\Modele\Film;
+use App\Http\Requests\InsertFilmRequest as FilmRequest;
 
 class FilmController extends Controller
 {
@@ -24,22 +25,23 @@ class FilmController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return view('FormAjoutFilm');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(FilmRequest $filmRequest)
     {
-        //
+        Film::create($filmRequest->all());
+        return redirect()->route('films.index')->with('info', 'Le film a bien été crée');
     }
 
     /**
